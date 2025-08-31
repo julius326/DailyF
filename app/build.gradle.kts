@@ -51,9 +51,12 @@ dependencies {
 
     // Firebase
     implementation("com.google.firebase:firebase-auth:22.3.1")
-    implementation("com.google.firebase:firebase-firestore:25.0.0")
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
+
+
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
@@ -70,6 +73,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth.ktx)
 
     // Testing
     testImplementation(libs.junit)
@@ -80,6 +84,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
+configurations.all {
+    resolutionStrategy {
+        force ("com.google.firebase:firebase-auth-ktx:22.3.1")
+    }
+}
+
 
 
 

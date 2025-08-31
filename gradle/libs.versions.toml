@@ -19,6 +19,7 @@ ktorClientAndroid = "2.3.12"
 supabase = "2.5.2"
 coilCompose = "2.6.8"
 kotlinSerializationJson = "1.6.3"
+firebaseAuthKtx = "24.0.1"
 
 
 [libraries]
@@ -40,6 +41,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
