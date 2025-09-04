@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -27,66 +28,87 @@ import com.example.abcd.navigations.ROUTE_HOME
 import com.example.abcd.navigations.ROUTE_LOGIN
 import com.example.abcd.navigations.ROUTE_REGISTER
 
+
 @Composable
 fun LoginScreen(navController: NavHostController) {
     val authViewModel: AuthViewModel = viewModel()
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Blue),
+            .background(color = Color(0xFFADD8E6)),
         horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
-        var errorMessage by remember { mutableStateOf<String?>(null) }
 
         Text(
             text = "Log in",
             fontSize = 40.sp,
-            color = Color.White,
+            color = Color(0xFF800080),
             fontFamily = FontFamily.Cursive
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Image(
-            painter = painterResource(id = R.drawable.l),
-            contentDescription = "login logo",
-            modifier = Modifier.size(200.dp)
-        )
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text(text = "email address") },
+        // 🌟 Card wraps the text fields
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Email,
-                    contentDescription = "email icon"
+                .padding(horizontal = 16.dp),
+            shape = RoundedCornerShape(16.dp),
+            elevation = CardDefaults.cardElevation(8.dp), // Adds shadow
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                OutlinedTextField(
+                    value = email,
+                    onValueChange = { email = it },
+                    label = { Text(text = "Email address") },
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Email,
+                            contentDescription = "email icon"
+                        )
+                    }
                 )
-            }
-        )
 
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text(text = "Password") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.Lock,
-                    contentDescription = "password icon"
+                OutlinedTextField(
+                    value = password,
+                    onValueChange = { password = it },
+                    label = { Text(text = "Password") },
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Lock,
+                            contentDescription = "password icon"
+                        )
+                    }
                 )
             }
-        )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
 
         Button(
             onClick = {
+                if (email.isBlank() || password.isBlank()) {
+                    errorMessage = "Inputs cannot be blank"
+                    return@Button
+                }
                 authViewModel.loginUser(
                     email = email,
                     password = password,
@@ -99,7 +121,10 @@ fun LoginScreen(navController: NavHostController) {
                         errorMessage = error
                     }
                 )
-            }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
         ) {
             Text(
                 text = "LOGIN",
@@ -109,7 +134,9 @@ fun LoginScreen(navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        TextButton(onClick = {navController.navigate(ROUTE_REGISTER) }) {
+        TextButton(onClick = {
+            navController.navigate(ROUTE_REGISTER)
+        }) {
             Text(
                 text = "Don't have an account? REGISTER",
                 fontSize = 20.sp
@@ -117,6 +144,102 @@ fun LoginScreen(navController: NavHostController) {
         }
     }
 }
+
+//fun LoginScreen(navController: NavHostController) {
+//    val authViewModel: AuthViewModel = viewModel()
+//    var errorMessage by remember { mutableStateOf<String?>(null) }
+//    Column(
+//        modifier = Modifier
+//            .fillMaxSize()
+//            .background(color = Color(0xFFADD8E6)),
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center
+//    ) {
+//        var email by remember { mutableStateOf("") }
+//        var password by remember { mutableStateOf("") }
+//        var errorMessage by remember { mutableStateOf<String?>(null) }
+//
+//        Text(
+//            text = "Log in",
+//            fontSize = 40.sp,
+//            color = Color(0xFF800080),
+//            fontFamily = FontFamily.Cursive
+//        )
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//
+//
+//        OutlinedTextField(
+//            value = email,
+//            onValueChange = { email = it },
+//            label = { Text(text = "email address") },
+//            shape = RoundedCornerShape(50),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 20.dp),
+//            leadingIcon = {
+//                Icon(
+//                    imageVector = Icons.Default.Email,
+//                    contentDescription = "email icon"
+//                )
+//            }
+//        )
+//
+//        OutlinedTextField(
+//            value = password,
+//            onValueChange = { password = it },
+//            label = { Text(text = "Password") },
+//            shape = RoundedCornerShape(50),
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(horizontal = 20.dp),
+//            leadingIcon = {
+//                Icon(
+//                    imageVector = Icons.Default.Lock,
+//                    contentDescription = "password icon"
+//                )
+//            }
+//        )
+//
+//        Button(
+//            onClick = {
+//                if ( email.isBlank() || password.isBlank() ) {
+//                    errorMessage = "Inputs cannot be blank"
+//                    return@Button
+//                }
+//                authViewModel.loginUser(
+//                    email = email,
+//                    password = password,
+//                    onSuccess = {
+//                        navController.navigate(ROUTE_HOME) {
+//                            popUpTo(ROUTE_LOGIN) { inclusive = true }
+//                        }
+//                    },
+//                    onError = { error ->
+//                        errorMessage = error
+//                    }
+//                )
+//            },
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(20.dp)
+//        ) {
+//            Text(
+//                text = "LOGIN",
+//                fontSize = 20.sp
+//            )
+//        }
+//
+//        Spacer(modifier = Modifier.height(20.dp))
+//
+//        TextButton(onClick = {navController.navigate(ROUTE_REGISTER) }) {
+//            Text(
+//                text = "Don't have an account? REGISTER",
+//                fontSize = 20.sp
+//            )
+//        }
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable

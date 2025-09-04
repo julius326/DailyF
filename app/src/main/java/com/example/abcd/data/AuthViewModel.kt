@@ -45,4 +45,10 @@ class AuthViewModel: ViewModel() {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onError(it.message ?: "Login failed") }
     }
+    fun logoutUser(
+        onSuccess: () -> Unit
+    ) {
+        auth.signOut()
+        onSuccess()
+    }
 }

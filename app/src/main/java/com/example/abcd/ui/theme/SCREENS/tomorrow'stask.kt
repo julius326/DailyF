@@ -8,6 +8,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.abcd.navigations.ROUTE_HABITLIST
 import com.example.abcd.navigations.ROUTE_HOME
+import com.example.abcd.navigations.ROUTE_TOMORROW
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
 import java.util.Calendar
@@ -178,13 +182,36 @@ fun TomorrowTaskScreen(navController: NavHostController) {
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.White)
             )
         },
-        containerColor = Color.White
+        bottomBar = {
+            NavigationBar(containerColor = Color(0xFF4B0082)) {
+                NavigationBarItem(
+                    selected = true,
+                    onClick = { navController.navigate(ROUTE_HOME) },
+                    icon = { Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.Blue) },
+                    label = { Text("Home", color = Color.White) }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { navController.navigate(ROUTE_HABITLIST) },
+                    icon = { Icon(Icons.Default.Refresh, contentDescription = "Habits", tint = Color.Blue) },
+                    label = { Text("Habits", color = Color.White) }
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { navController.navigate(ROUTE_TOMORROW) },
+                    icon = { Icon(Icons.Default.Star, contentDescription = "Motivations", tint = Color.Blue) },
+                    label = { Text("Motivations", color = Color.White) }
+                )
+            }
+        },
+        containerColor = Color(0xFFADD8E6)
+
     ) { padding ->
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Blue)
+                .background(Color(0xFFADD8E6))
                 .padding(padding)
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally

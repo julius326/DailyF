@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Refresh
@@ -33,7 +34,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.TopAppBar
+import com.example.abcd.data.AuthViewModel
 import com.example.abcd.navigations.ROUTE_HABITLIST
+import com.example.abcd.navigations.ROUTE_LOGIN
 import com.example.abcd.navigations.ROUTE_MOTIVATION
 
 
@@ -42,6 +45,7 @@ import com.example.abcd.navigations.ROUTE_MOTIVATION
 fun MotivationScreen(
     navController: NavHostController,
     viewModel: Addmotivationsmodels = viewModel(),
+    AuthViewModel: AuthViewModel = viewModel()
 ) {
     val motivations = remember { mutableStateListOf<Motivation>() }
     var isLoading by remember { mutableStateOf(true) }
@@ -83,13 +87,30 @@ fun MotivationScreen(
                         }
                     }
                 },
+                actions = {
+                    IconButton(onClick = {
+                        // 👇 Call your ViewModel's logout function here
+                        AuthViewModel.logoutUser {
+                            // Handle post-logout (e.g., navigate to login)
+                            navController.navigate(ROUTE_LOGIN) {
+                                popUpTo(0) // Clear back stack
+                            }
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.ExitToApp,
+                            contentDescription = "Logout",
+                            tint = Color.Red
+                        )
+                    }
+                },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
+                    containerColor = Color(0xFF4B0082)
                 )
             )
         },
         bottomBar = {
-            NavigationBar(containerColor = Color.White) {
+            NavigationBar(containerColor =  Color(0xFF4B0082)) {
                 NavigationBarItem(
                     selected = true,
                     onClick = {
@@ -98,7 +119,7 @@ fun MotivationScreen(
                         }
                     },
                     icon = { Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.White) },
-                    label = { Text("Home", color = Color.Blue) }
+                    label = { Text("Home", color = Color.White) }
                 )
                 NavigationBarItem(
                     selected = true,
@@ -108,7 +129,7 @@ fun MotivationScreen(
                         }
                     },
                     icon = { Icon(Icons.Default.Refresh, contentDescription = "Home", tint = Color.White) },
-                    label = { Text("Habits", color = Color.Blue) }
+                    label = { Text("Habits", color = Color.White) }
                 )
                 NavigationBarItem(
                     selected = true,
@@ -118,7 +139,7 @@ fun MotivationScreen(
                         }
                     },
                     icon = { Icon(Icons.Default.Star, contentDescription = "Home", tint = Color.White) },
-                    label = { Text("Motivations", color = Color.Blue) }
+                    label = { Text("Motivations", color = Color.White) }
                 )
             }
         },
@@ -127,7 +148,7 @@ fun MotivationScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Blue)
+                .background(Color(0xFFADD8E6))
                 .padding(padding)
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally

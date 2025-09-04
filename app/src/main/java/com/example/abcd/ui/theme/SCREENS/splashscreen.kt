@@ -40,7 +40,7 @@ fun SplashScreen(navController: NavHostController){
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Blue),
+            .background(Color(0xFF000000)),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -54,7 +54,7 @@ fun SplashScreen(navController: NavHostController){
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "Welcome to Daily Focus",
+                text = "Daily Focus",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -68,8 +68,8 @@ fun SplashScreen(navController: NavHostController){
         }
     }
 }
-//@Preview
-//@Composable
-//fun splashscreen(){
-//    SplashScreen(rememberNavController())
-//}
+@Preview
+@Composable
+fun splashscreen(){
+    SplashScreen(rememberNavController())
+}

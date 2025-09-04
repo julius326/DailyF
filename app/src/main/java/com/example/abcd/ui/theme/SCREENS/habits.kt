@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,7 +21,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.abcd.data.HabitViewModel
+import com.example.abcd.navigations.ROUTE_HABITLIST
 import com.example.abcd.navigations.ROUTE_HOME
+import com.example.abcd.navigations.ROUTE_MOTIVATION
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,10 +32,10 @@ fun HabitScreen(navController: NavHostController, viewModel: HabitViewModel = vi
     var error by remember { mutableStateOf<String?>(null) }
 
     Scaffold(
-        topBar = @androidx.compose.runtime.Composable {
+        topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text("Add Habits", color = Color.Blue, fontWeight = FontWeight.Bold)
+                    Text("Add Habits", color = Color.White, fontWeight = FontWeight.Bold)
                 },
                 navigationIcon = {
                     Row {
@@ -41,7 +45,7 @@ fun HabitScreen(navController: NavHostController, viewModel: HabitViewModel = vi
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = "Back",
-                                tint = Color.Blue
+                                tint = Color.White
                             )
                         }
                         Spacer(modifier = Modifier.width(8.dp))
@@ -51,23 +55,76 @@ fun HabitScreen(navController: NavHostController, viewModel: HabitViewModel = vi
                             Icon(
                                 imageVector = Icons.Default.Home,
                                 contentDescription = "Home",
-                                tint = Color.Blue
+                                tint = Color.White
                             )
                         }
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = Color.White
+                    containerColor =  Color(0xFF4B0082) // ✅ same as other screen
                 )
             )
         },
-                containerColor = Color.Blue
+        bottomBar = {
+            NavigationBar(containerColor = Color(0xFF4B0082)) { // ✅ same deep purple as HabitListScreen
+                NavigationBarItem(
+                    selected = true,
+                    onClick = {
+                        navController.navigate(ROUTE_HOME){
+                            popUpTo(ROUTE_HOME){inclusive = true}
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "Home",
+                            tint = Color.White
+                        )
+                    },
+                    label = { Text("Home", color = Color.White) }
+                )
+                NavigationBarItem(
+                    selected = true,
+                    onClick = {
+                        navController.navigate(ROUTE_HABITLIST) {
+                            popUpTo(ROUTE_HOME) { inclusive = true }
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = "Habits",
+                            tint = Color.White
+                        )
+                    },
+                    label = { Text("Habits", color = Color.White) }
+                )
+                NavigationBarItem(
+                    selected = true,
+                    onClick = {
+                        navController.navigate(ROUTE_MOTIVATION) {
+                            popUpTo(ROUTE_HOME) { inclusive = true }
+                        }
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Star,
+                            contentDescription = "Motivations",
+                            tint = Color.White
+                        )
+                    },
+                    label = { Text("Motivations", color = Color.White) }
+                )
+            }
+        },
+        containerColor = Color(0xFFADD8E6) // ✅ background matches other screen
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
+                .background(Color(0xFFADD8E6)) // ✅ consistent background
         ) {
             OutlinedTextField(
                 value = habitText,
@@ -102,7 +159,6 @@ fun HabitScreen(navController: NavHostController, viewModel: HabitViewModel = vi
         }
     }
 }
-
 
 
 @Preview(showBackground = true)
